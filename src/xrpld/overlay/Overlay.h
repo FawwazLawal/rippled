@@ -178,13 +178,14 @@ public:
      * randomly select peers to relay to and queue transaction's hash
      * for the rest of the peers.
      * @param hash transaction's hash
-     * @param m transaction's protocol message to relay
+     * @param m transaction's protocol message to relay, or nullptr to only
+     *     queue the hash
      * @param toSkip peers which have already seen this transaction
      */
     virtual void
     relay(
         UInt256 const& hash,
-        std::optional<std::reference_wrapper<protocol::TMTransaction>> m,
+        protocol::TMTransaction const* m,
         std::set<Peer::ID> const& toSkip) = 0;
 
     /**

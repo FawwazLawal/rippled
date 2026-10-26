@@ -1316,13 +1316,13 @@ OverlayImpl::getManifestsMessage()
 void
 OverlayImpl::relay(
     UInt256 const& hash,
-    std::optional<std::reference_wrapper<protocol::TMTransaction>> tx,
+    protocol::TMTransaction const* tx,
     std::set<Peer::ID> const& toSkip)
 {
-    bool relay = tx.has_value();
+    bool relay = tx != nullptr;
     if (relay)
     {
-        auto const& txn = tx->get();
+        auto const& txn = *tx;
         SerialIter sit(makeSlice(txn.rawtransaction()));
         try
         {
@@ -1356,7 +1356,7 @@ OverlayImpl::relay(
         return;
     }
 
-    auto const& txn = tx->get();
+    auto const& txn = *tx;
     auto const sm = std::make_shared<Message>(txn, protocol::mtTRANSACTION);
     peers = getActivePeers(toSkip, total, disabled, enabledInSkip);
     auto const minRelay = app_.config().txReduceRelayMinPeers + disabled;

@@ -245,7 +245,7 @@ public:
     void
     relay(
         UInt256 const&,
-        std::optional<std::reference_wrapper<protocol::TMTransaction>> m,
+        protocol::TMTransaction const* m,
         std::set<Peer::ID> const& skip) override;
 
     std::shared_ptr<Message>
